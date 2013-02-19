@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.muc.MultiUserChat;
@@ -33,6 +34,8 @@ public class Server implements ConnectionListener {
 	private static final String MASTER_PASSWORD = "leo@1977";
 	
 	private static final String MASTER_NICKNAME = "cyp_master";
+	
+	private static final int CONSOLE_PORT = 3456;
 	
 	private static final String CHESSYOUP_URL = "http://api.chessyoup.com";
 	
@@ -75,7 +78,15 @@ public class Server implements ConnectionListener {
 					System.out.println("participant event");
 					
 				}
-			});									
+			});
+			
+			xmppConn.getXmppConnection().addPacketListener(new PacketListener() {
+				
+				@Override
+				public void processPacket(Packet packet) {
+					System.out.println(packet.toXML());					
+				}
+			}, new PacketTypeFilter(Packet.class));
 		}
 	}
 
