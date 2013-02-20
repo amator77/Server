@@ -16,6 +16,7 @@ import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import com.cyp.application.Application;
 import com.cyp.application.Logger;
+import com.cyp.console.ConsoleServer;
 import com.cyp.server.rooms.RoomsManager;
 import com.cyp.server.rooms.ServerRoom;
 import com.cyp.transport.Connection;
@@ -43,6 +44,8 @@ public class Server implements ConnectionListener {
 	
 	private Connection connection;
 	
+	private ConsoleServer consoleServer;
+	
 	private MultiUserChat mainRoom;
 	
 	private Logger log;
@@ -52,6 +55,8 @@ public class Server implements ConnectionListener {
 		connection = ConnectionFactory.getFactory().createConnection(
 				CONNECTION_TYPE.XMPP_GTALK_MD5);
 		this.log = Application.getContext().getLogger();
+		consoleServer = new ConsoleServer();
+		consoleServer.run();
 	}
 
 	public void start() throws Exception {
@@ -66,8 +71,7 @@ public class Server implements ConnectionListener {
 				
 				@Override
 				public void processPacket(Packet arg0) {
-					System.out.println("new message in the room");
-					
+					System.out.println("new message in the room");					
 				}
 			});
 			
@@ -75,8 +79,7 @@ public class Server implements ConnectionListener {
 				
 				@Override
 				public void processPacket(Packet arg0) {
-					System.out.println("participant event");
-					
+					System.out.println("participant event");					
 				}
 			});
 			
@@ -84,7 +87,7 @@ public class Server implements ConnectionListener {
 				
 				@Override
 				public void processPacket(Packet packet) {
-					System.out.println(packet.toXML());					
+					consoleServer.sendObject(packet.toXML());									
 				}
 			}, new PacketTypeFilter(Packet.class));
 		}
@@ -94,6 +97,7 @@ public class Server implements ConnectionListener {
 		if (connection.isConnected()) {			
 			this.mainRoom.destroy("stop", "");			
 			connection.logout();
+			consoleServer.stop();
 		}
 	}
 

@@ -8,7 +8,7 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelUpstreamHandler;
 
-import com.cyp.console.command.Command;
+import com.cyp.console.command.LoginCommand;
 
 public class ConsoleClientHandler extends SimpleChannelUpstreamHandler {
 	@Override
@@ -24,8 +24,8 @@ public class ConsoleClientHandler extends SimpleChannelUpstreamHandler {
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) {
 		System.out.println("Channel connected. Send login... ");
-		Command loginCmd = new Command();
-		loginCmd.setId(Command.LOGIN_COMMAND);
+		LoginCommand loginCmd = new LoginCommand();
+		loginCmd.setId(LoginCommand.LOGIN_COMMAND);
 		loginCmd.setPayload("credentials".getBytes());
 		e.getChannel().write(loginCmd);
 	}

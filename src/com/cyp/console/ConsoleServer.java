@@ -2,8 +2,6 @@ package com.cyp.console;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelPipeline;
@@ -14,37 +12,50 @@ import org.jboss.netty.handler.codec.serialization.ClassResolvers;
 import org.jboss.netty.handler.codec.serialization.ObjectDecoder;
 import org.jboss.netty.handler.codec.serialization.ObjectEncoder;
 
-public class ConsoleServer implements Runnable {
+import com.cyp.application.Application;
+
+public class ConsoleServer {
 
 	public static final int CONSOLE_PORT = 3456;
-	
-	private ServerCommandHandler commandHandler;
 
-	@Override
+	private ServerCommandHandler serverCommandHandler;
+	
+	private ServerBootstrap bootstrap;
+		
 	public void run() {
-		// Configure the server.
-		ServerBootstrap bootstrap = new ServerBootstrap(
+		this.bootstrap = new ServerBootstrap(
 				new NioServerSocketChannelFactory(
 						Executors.newCachedThreadPool(),
 						Executors.newCachedThreadPool()));
 
-		// Set up the pipeline factory.
+		serverCommandHandler = new ServerCommandHandler();
+
 		bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
 			public ChannelPipeline getPipeline() throws Exception {
 				return Channels.pipeline(
 						new ObjectEncoder(),
 						new ObjectDecoder(ClassResolvers
 								.cacheDisabled(getClass().getClassLoader())),
-						new ServerCommandHandler());
+						serverCommandHandler);
 			}
 		});
 
-		bootstrap.bind(new InetSocketAddress(CONSOLE_PORT));
-		System.out.println("server started");
+		this.bootstrap.bind(new InetSocketAddress(CONSOLE_PORT));
+		Application.getContext().getLogger().debug("ConsoleServer", "Console server started!");
+	}
+	
+	public void stop(){
+		this.bootstrap.shutdown();
+	}
+	
+	public void sendObject(Object object) {
+		if (this.serverCommandHandler != null) {
+			this.serverCommandHandler.sendObject(object);
+		}
 	}
 
-	public static void main(String[] args) {
-		Logger.getGlobal().setLevel(Level.FINEST);
+	public static void main(String[] args) throws Exception {	
+		Application.configure("com.cyp.server.context.ServerContext", null);
 		new ConsoleServer().run();
 	}
 }
