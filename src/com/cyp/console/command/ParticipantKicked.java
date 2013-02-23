@@ -19,4 +19,9 @@ public class ParticipantKicked implements Serializable {
 	public void setParticipant(String participant) {
 		this.participant = participant;
 	}
+
+	@Override
+	public String toString() {
+		return "ParticipantKicked [participant=" + participant + "]";
+	}
 }

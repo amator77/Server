@@ -4,10 +4,8 @@ import java.io.Serializable;
 
 public class VoiceRevoked implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2492493336220605894L;
+	
 	private String nick;
 	
 	public VoiceRevoked(String nick){
@@ -20,5 +18,10 @@ public class VoiceRevoked implements Serializable {
 
 	public void setNick(String nick) {
 		this.nick = nick;
+	}
+
+	@Override
+	public String toString() {
+		return "VoiceRevoked [nick=" + nick + "]";
 	}		
 }

@@ -18,5 +18,12 @@ public class OwnershipGranted implements Serializable {
 
 	public void setParticipant(String participant) {
 		this.participant = participant;
-	}		
+	}
+
+	@Override
+	public String toString() {
+		return "OwnershipGranted [participant=" + participant + "]";
+	}	
+	
+	
 }

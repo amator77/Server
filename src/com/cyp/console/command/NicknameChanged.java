@@ -29,5 +29,11 @@ public class NicknameChanged implements Serializable {
 
 	public void setNewNick(String newNick) {
 		this.newNick = newNick;
+	}
+
+	@Override
+	public String toString() {
+		return "NicknameChanged [participant=" + participant + ", newNick="
+				+ newNick + "]";
 	}		
 }

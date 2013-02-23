@@ -18,5 +18,12 @@ public class MembershipRevoked implements Serializable {
 
 	public void setParticipant(String participant) {
 		this.participant = participant;
-	}		
+	}
+
+	@Override
+	public String toString() {
+		return "MembershipRevoked [participant=" + participant + "]";
+	}	
+	
+	
 }

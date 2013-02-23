@@ -6,4 +6,8 @@ public class StopCommand implements Serializable{
 	
 	private static final long serialVersionUID = 6213752564254427253L;
 
+	@Override
+	public String toString() {
+		return "StopCommand []";
+	}
 }

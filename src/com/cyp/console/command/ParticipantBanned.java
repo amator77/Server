@@ -40,5 +40,11 @@ public class ParticipantBanned implements Serializable {
 
 	public void setActor(String actor) {
 		this.actor = actor;
+	}
+
+	@Override
+	public String toString() {
+		return "ParticipantBanned [participant=" + participant + ", actor="
+				+ actor + ", reason=" + reason + "]";
 	}	
 }

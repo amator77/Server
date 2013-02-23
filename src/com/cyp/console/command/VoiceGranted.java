@@ -4,10 +4,8 @@ import java.io.Serializable;
 
 public class VoiceGranted implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2492493336220605894L;
+	
 	private String participant;
 	
 	public VoiceGranted(String participant){
@@ -20,5 +18,10 @@ public class VoiceGranted implements Serializable {
 
 	public void setParticipant(String participant) {
 		this.participant = participant;
+	}
+
+	@Override
+	public String toString() {
+		return "VoiceGranted [participant=" + participant + "]";
 	}		
 }

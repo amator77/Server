@@ -18,5 +18,11 @@ public class ModeratorGranted implements Serializable {
 
 	public void setParticipant(String participant) {
 		this.participant = participant;
-	}		
+	}
+
+	@Override
+	public String toString() {
+		return "ModeratorGranted [participant=" + participant + "]";
+	}
+	
 }
