@@ -20,6 +20,10 @@ public class ConsoleServer {
 
 	private ServerCommandHandler serverCommandHandler;
 	
+	public ServerCommandHandler getServerCommandHandler() {
+		return serverCommandHandler;
+	}
+
 	private ServerBootstrap bootstrap;
 		
 	public void run() {
@@ -53,7 +57,15 @@ public class ConsoleServer {
 			this.serverCommandHandler.sendObject(object);
 		}
 	}
-
+	
+	public void addServerCommandListener(ServerCommandListener listener){
+		serverCommandHandler.addServerCommandListener(listener);
+	}
+	
+	public void removeServerCommandListener(ServerCommandListener listener){
+		serverCommandHandler.removeServerCommandListener(listener);
+	}
+	
 	public static void main(String[] args) throws Exception {	
 		Application.configure("com.cyp.server.context.ServerContext", null);
 		new ConsoleServer().run();
